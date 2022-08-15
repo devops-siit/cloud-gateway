@@ -7,15 +7,19 @@ spring:
         - id: accounts-api
           uri: lb://ACCOUNTS-API
           predicates:
-            - Path=/accounts/**
+            - Path=/accounts/**,/follows/**,/follow-requests/**
         - id: posts-api
           uri: lb://POSTS-API
           predicates:
-            - Path=/posts/**
+            - Path=/posts/**,/comments/**
         - id: chat-api
           uri: lb://CHAT-API
           predicates:
-            - Path=/chat/**
+            - Path=/chats/**,/messages/**
+        - id: offers-api
+          uri: lb://OFFERS-API
+          predicates:
+            - Path=/offers/**
 
   eureka:
     client:
