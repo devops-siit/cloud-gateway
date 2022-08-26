@@ -5,22 +5,29 @@ spring:
     gateway:
       routes:
         - id: accounts-api
-          uri: lb://ACCOUNTS-API
+          uri: http://localhost:8080
           predicates:
             - Path=/accounts/**,/follows/**,/follow-requests/**
+          filters:
+            - AuthFilter
         - id: posts-api
-          uri: lb://POSTS-API
+          uri: http://localhost:8082
           predicates:
             - Path=/posts/**,/comments/**
+          filters:
+            - AuthFilter
         - id: chat-api
-          uri: lb://CHAT-API
+          uri: http://localhost:8084
           predicates:
             - Path=/chats/**,/messages/**
+          filters:
+            - AuthFilter
         - id: offers-api
-          uri: lb://OFFERS-API
+          uri: http://localhost:8083
           predicates:
-            - Path=/offers/**
-
+            - Path=/offers/**,/companies/**
+          filters:
+            - AuthFilter
 
 server:
   port: 8087
