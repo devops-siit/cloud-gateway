@@ -54,4 +54,29 @@
 		</plugins>
 	</build>
 
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>cloud-gateway</name>
+			<url>https://maven.pkg.github.com/devops-siit/cloud-gateway</url>
+		</repository>
+	</distributionManagement>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<build.profile.id>dev</build.profile.id>
+				<profileActive>dev</profileActive>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<build.profile.id>test</build.profile.id>
+				<profileActive>test</profileActive>
+			</properties>
+		</profile>
+	</profiles>
+
 </project>
