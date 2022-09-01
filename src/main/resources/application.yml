@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: CLOUD-GATEWAY
   cloud:
     gateway:
       routes:
@@ -10,6 +8,10 @@ spring:
             - Path=/accounts/**,/follows/**,/follow-requests/**
           filters:
             - AuthFilter
+        - id: auth-api
+          uri: http://localhost:8181
+          predicates:
+            - Path=/login,/register,/validate-token
         - id: posts-api
           uri: http://localhost:8082
           predicates:

@@ -1,5 +1,6 @@
 package com.dislinkt.cloudgateway.config;
 
+import com.dislinkt.cloudgateway.contracts.AccountDTO;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
@@ -32,13 +33,13 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
             }
 
             return webClientBuilder.build()
-                    .post()
-                    .uri("http://service-users/users/validateToken?token=" + parts[1])
-                    .retrieve().bodyToMono(Object.class)
-                    .map(userDto -> {
+                    .get()
+                    .uri("http://localhost:8181/validate-token?token=" + parts[1])
+                    .retrieve().bodyToMono(AccountDTO.class)
+                    .map(accountDTO -> {
                         exchange.getRequest()
                                 .mutate()
-                                .header("X-auth-user-id", String.valueOf(userDto));
+                                .header("X-auth-user-id", accountDTO.getUsername());
                         return exchange;
                     }).flatMap(chain::filter);
         };
