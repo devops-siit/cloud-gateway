@@ -1,9 +1,9 @@
 FROM maven:3.8.5-openjdk-18 AS build
 COPY src /src
 COPY pom.xml /
-RUN --mount=type=cache,target=/root/.m2 mvn -f /pom.xml clean package
+RUN --mount=type=cache,target=/root/.m2 mvn -f /pom.xml clean package -P dev -DskipTests=true
 
 FROM openjdk:18-oracle
-COPY --from=build target/cloud-gateway-0.0.1-SNAPSHOT.jar /cloud-gateway-0.0.1.jar
+COPY --from=build target/*.jar /cloud-gateway.jar
 EXPOSE 8087
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=dev", "/cloud-gateway-0.0.1.jar"]
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=dev", "/cloud-gateway.jar"]
