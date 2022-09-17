@@ -2,6 +2,7 @@ package com.dislinkt.cloudgateway.config;
 
 import com.dislinkt.cloudgateway.contracts.AccountDTO;
 import com.dislinkt.cloudgateway.exception.UnauthorizedException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +15,9 @@ import reactor.core.publisher.Mono;
 public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> {
 
     private final WebClient.Builder webClientBuilder;
+
+    @Value("${api.auth}")
+    private String authApiPath;
 
     public AuthFilter(WebClient.Builder webClientBuilder) {
         super(Config.class);
@@ -38,7 +42,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
 
                 return webClientBuilder.build()
                         .get()
-                        .uri("http://localhost:8181/validate-token?token=" + parts[1])
+                        .uri(String.format("%s/validate-token?token=%s", authApiPath, parts[1]))
                         .retrieve()
                         .onStatus(HttpStatus::isError, response -> {
                             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);

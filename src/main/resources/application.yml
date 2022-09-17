@@ -31,5 +31,8 @@ spring:
           filters:
             - AuthFilter
 
+api:
+  auth: http://localhost:8181
+
 server:
   port: 8087
