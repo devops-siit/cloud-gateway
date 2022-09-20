@@ -2,6 +2,10 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: accounts-api-public
+          uri: http://localhost:8080
+          predicates:
+            - Path=/accounts/search
         - id: accounts-api
           uri: http://localhost:8080
           predicates:
@@ -12,6 +16,10 @@ spring:
           uri: http://localhost:8181
           predicates:
             - Path=/login,/register,/validate-token
+        - id: posts-api-public
+          uri: http://localhost:8082
+          predicates:
+            - Path=/posts/account/*
         - id: posts-api
           uri: http://localhost:8082
           predicates:
