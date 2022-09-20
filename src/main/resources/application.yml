@@ -35,7 +35,13 @@ spring:
         - id: offers-api
           uri: http://localhost:8083
           predicates:
-            - Path=/offers/**,/companies/**
+            - Path=/offers/**
+          filters:
+            - AuthFilter
+        - id: agent-api
+          uri: http://localhost:8089
+          predicates:
+            - Path=/company-comment/**,/companies/**,/company-request/**,/rates**
           filters:
             - AuthFilter
 
